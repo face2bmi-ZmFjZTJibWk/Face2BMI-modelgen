@@ -1,6 +1,7 @@
 # imports
 import pandas as pd
 from glob import glob
+from pathlib import Path as p
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -29,3 +30,11 @@ for slug in slugs:
 all_jpgs = sorted(all_jpgs)  # all images sorted
 print("-------------------")
 print("{:0=3d} images in Total".format(len(all_jpgs)))
+
+
+id_path = [(p(images).stem.split("_")[0], images) for images in all_jpgs]
+
+image_df = pd.DataFrame(id_path, columns=['slug', 'path'])
+data_df = image_df.merge(profiles)
+print("------------------------------------Data Frame------------------------------------")
+print(data_df)
