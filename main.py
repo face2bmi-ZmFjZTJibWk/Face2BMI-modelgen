@@ -6,6 +6,7 @@ import face_recognition
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
+import joblib
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -86,3 +87,13 @@ model_weight = linear_model.LinearRegression()
 model_weight = model_weight.fit(X_train, np.log(y_weight_train))
 
 print("------------------------------------DONE------------------------------------")
+
+print("------------------------------------Output Model.pkl------------------------------------")
+
+# print model score
+print(model_height.score(X_test, y_height_test))
+print(model_weight.score(X_test, y_weight_test))
+
+# save model dump into pkl binaries
+joblib.dump(model_height, "out/height_predictor.pkl")
+joblib.dump(model_weight, "out/weight_predictor.pkl")
