@@ -2,6 +2,8 @@
 import pandas as pd
 from glob import glob
 from pathlib import Path as p
+import face_recognition
+import numpy as np
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -38,3 +40,27 @@ image_df = pd.DataFrame(id_path, columns=['slug', 'path'])
 data_df = image_df.merge(profiles)
 print("------------------------------------Data Frame------------------------------------")
 print(data_df)
+
+
+print("------------------------------------Getting Encoding data from Images------------------------------------")
+
+# collect all face encodings
+face_encodings_all = []
+
+
+def get_face_encoding(image_path):
+    # load image in face-recognition
+    input_image = face_recognition.load_image_file(image_path)
+    # get face data encodings extracted from image from facenet's pretrained data
+    my_face_encoding = face_recognition.face_encodings(input_image)
+    if not my_face_encoding:
+        # return zeros if no face found
+        print("Face not found in {}".format(image_path))
+        return np.zeros(128).tolist()
+    return my_face_encoding[0].tolist()
+
+
+# get face encodings for each image in dataframe df
+for images in data_df.path:
+    face_enc = get_face_encoding(images)
+    face_encodings_all.append(face_enc)
