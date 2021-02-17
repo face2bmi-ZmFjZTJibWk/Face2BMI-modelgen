@@ -4,6 +4,7 @@ from glob import glob
 from pathlib import Path as p
 import face_recognition
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -64,3 +65,13 @@ def get_face_encoding(image_path):
 for images in data_df.path:
     face_enc = get_face_encoding(images)
     face_encodings_all.append(face_enc)
+
+print("------------------------------------Training------------------------------------")
+
+# load training data matrix as numpy array
+X = np.array(face_encodings_all)
+y_height = data_df["Height (m)"].values
+y_weight = data_df["Weight (kg)"].values
+
+X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = \
+    train_test_split(X, y_height, y_weight, random_state=1)
