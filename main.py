@@ -5,6 +5,7 @@ from pathlib import Path as p
 import face_recognition
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn import linear_model
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -75,3 +76,13 @@ y_weight = data_df["Weight (kg)"].values
 
 X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = \
     train_test_split(X, y_height, y_weight, random_state=1)
+
+# Fit face-encoding data with height as a linear model
+model_height = linear_model.LinearRegression()
+model_height = model_height.fit(X_train, np.log(y_height_train))
+
+# Fit face-encoding data with weight as a linear model
+model_weight = linear_model.LinearRegression()
+model_weight = model_weight.fit(X_train, np.log(y_weight_train))
+
+print("------------------------------------DONE------------------------------------")
