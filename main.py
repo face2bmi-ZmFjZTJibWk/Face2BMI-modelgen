@@ -94,6 +94,6 @@ print("------------------------------------Output Model.pkl---------------------
 print(model_height.score(X_test, y_height_test))
 print(model_weight.score(X_test, y_weight_test))
 
-# save model dump into pkl binaries
-joblib.dump(model_height, "out/height_predictor.pkl")
-joblib.dump(model_weight, "out/weight_predictor.pkl")
+# save model dump into binaries
+joblib.dump(model_height, "out/height_predictor.model")
+joblib.dump(model_weight, "out/weight_predictor.model")
