@@ -24,3 +24,7 @@ jobs:
     - name: Run
       run: |
         python main.py
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Face2BMI_model
+        path: out/*.pkl
