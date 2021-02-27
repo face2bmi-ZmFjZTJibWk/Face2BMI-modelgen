@@ -1,12 +1,12 @@
 # imports
+import joblib
+import numpy as np
 import pandas as pd
 from glob import glob
-from pathlib import Path as p
 import face_recognition
-import numpy as np
-from sklearn.model_selection import train_test_split
+from pathlib import Path as p
 from sklearn import linear_model
-import joblib
+from sklearn.model_selection import train_test_split
 
 # static declarations
 dataset_images_csv = "data/images.csv"
