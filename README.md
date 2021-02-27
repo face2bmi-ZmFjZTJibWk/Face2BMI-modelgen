@@ -38,6 +38,10 @@ On Windows:
 
 `pip install -r requirements.txt`
 
+### Updating Submodule `data`
+
+`git submodule update --remote --merge`
+
 ## Data Folder's Structure
 
 ```
