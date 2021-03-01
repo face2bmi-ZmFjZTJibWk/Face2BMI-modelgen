@@ -7,6 +7,7 @@ import face_recognition
 from pathlib import Path as p
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 # static declarations
 dataset_images_csv = "data/images.csv"
@@ -90,9 +91,27 @@ print("------------------------------------DONE---------------------------------
 
 print("------------------------------------Output Model.pkl------------------------------------")
 
-# print model score
-print(model_height.score(X_test, y_height_test))
-print(model_weight.score(X_test, y_weight_test))
+
+def measure_perf(model, X_test, y_test):
+    # Make predictions using the testing set
+    y_pred = model.predict(X_test)
+    y_true = np.log(y_test)
+
+    errors = abs(y_pred - y_true)
+    mean_absolute_percentage_error = np.mean(errors / y_true)
+    accuracy = (1 - mean_absolute_percentage_error) * 100
+
+    return {"Average Error": mean_absolute_percentage_error * 100, "Accuracy": accuracy}
+
+
+# Show model score
+print("Height Perf => {}".format(
+    measure_perf(model_height, X_test, y_height_test))
+)
+print("Weight Perf => {}".format(
+    measure_perf(model_weight, X_test, y_weight_test))
+)
+
 
 # save model dump into binaries
 joblib.dump(model_height, "out/height_predictor.model")
