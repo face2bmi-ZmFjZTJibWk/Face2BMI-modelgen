@@ -1,6 +1,11 @@
 name: Run
 
 on:
+  push:
+    paths-ignore:
+      - 'out/**'
+      - 'LICENSE'
+      - 'README.md'
   workflow_dispatch:
     # manual run
 
