@@ -18,9 +18,12 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: face2bmi-ZmFjZTJibWk/Face2BMI-modelgen
-        submodules: "true"
-        ssh-key: ${{ secrets.SUBMODULE_SSH_KEY }}
         path: modelgen
+    - uses: actions/checkout@v2
+      with:
+        repository: face2bmi-ZmFjZTJibWk/data
+        ssh-key: ${{ secrets.SUBMODULE_SSH_KEY }}
+        path: modelgen/data
     - uses: actions/checkout@v2
       with:
         repository: face2bmi-ZmFjZTJibWk/webapp-api
