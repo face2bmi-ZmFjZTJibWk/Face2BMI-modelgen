@@ -17,14 +17,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+        repository: face2bmi-ZmFjZTJibWk/Face2BMI-modelgen
         submodules: "true"
-        token: ${{ secrets.PAT_TOKEN }}
+        ssh-key: ${{ secrets.SUBMODULE_SSH_KEY }}
+        path: modelgen
+    - uses: actions/checkout@v2
+      with:
+        repository: face2bmi-ZmFjZTJibWk/webapp-api
+        submodules: "true"
+        path: webapp-api
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
     - name: Install dependencies
       run: |
+        cd modelgen
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run
@@ -33,4 +41,15 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: Face2BMI_model
-        path: out/*.model
+        path: modelgen/out/*.model
+    - name: Upload model to webapp-api
+      run: |
+        cd ../webapp-api/
+        rm -rf model/*
+        cp ../modelgen/out/*.model model/
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add model/height_predictor.model
+        git add model/weight_predictor.model
+        git commit -m "update model "
+        git push
