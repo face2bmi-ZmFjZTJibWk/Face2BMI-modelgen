@@ -24,11 +24,6 @@ jobs:
         repository: face2bmi-ZmFjZTJibWk/data
         ssh-key: ${{ secrets.SUBMODULE_SSH_KEY }}
         path: modelgen/data
-    - uses: actions/checkout@v2
-      with:
-        repository: face2bmi-ZmFjZTJibWk/webapp-api
-        submodules: "true"
-        path: webapp-api
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -46,12 +41,19 @@ jobs:
       with:
         name: Face2BMI_model
         path: modelgen/out/*.model
+    - uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.WEBAPI_SSH_KEY }}
+        repository: face2bmi-ZmFjZTJibWk/webapp-api
+        path: webappapi
     - name: Upload model to webapp-api
       run: |
-        cd webapp-api
+        cd webappapi
         rm -rf model/*
         cp ../modelgen/out/*.model model/
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         git add model/height_predictor.model
         git add model/weight_predictor.model
-        git commit -m "update model "
+        git commit -m "update model"
         git push
