@@ -40,6 +40,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run
       run: |
+        cd modelgen
         python main.py
     - uses: actions/upload-artifact@v2
       with:
@@ -47,11 +48,9 @@ jobs:
         path: modelgen/out/*.model
     - name: Upload model to webapp-api
       run: |
-        cd ../webapp-api/
+        cd webapp-api
         rm -rf model/*
         cp ../modelgen/out/*.model model/
-        git config user.name github-actions
-        git config user.email github-actions@github.com
         git add model/height_predictor.model
         git add model/weight_predictor.model
         git commit -m "update model "
