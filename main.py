@@ -78,7 +78,7 @@ y_height = data_df["Height (m)"].values
 y_weight = data_df["Weight (kg)"].values
 
 X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = \
-    train_test_split(X, y_height, y_weight, random_state=1)
+    train_test_split(X, y_height, y_weight, test_size=0.20, random_state=1)
 
 # Fit face-encoding data with height as a linear model
 model_height = KernelRidge().fit(X_train, np.log(y_height_train))
