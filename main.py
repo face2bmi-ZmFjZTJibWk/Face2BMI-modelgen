@@ -54,10 +54,11 @@ face_encodings_all = []
 
 def get_face_encoding(image_path):
     # load image in face-recognition
-    input_image = face_recognition.load_image_file(image_path)
+    input_image = face_recognition.load_image_file(image_path, mode='RGB')
     # get face data encodings extracted from image from facenet's pretrained data
     try:
-        face_encoding = face_recognition.face_encodings(input_image)[0]
+        face_encoding = face_recognition.face_encodings(
+            input_image, num_jitters=20, model='large')[0]
         return face_encoding.tolist()
     except IndexError:
         print("Face not found in {}".format(image_path))
