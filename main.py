@@ -81,11 +81,11 @@ X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = 
     train_test_split(X, y_height, y_weight, test_size=0.20, random_state=1)
 
 # Fit face-encoding data with height as a linear model
-model_height = KernelRidge(kernel="laplacian").fit(
+model_height = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.002).fit(
     X_train, np.log(y_height_train))
 
 # Fit face-encoding data with weight as a linear model
-model_weight = KernelRidge(kernel="laplacian").fit(
+model_weight = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.0).fit(
     X_train, np.log(y_weight_train))
 
 print("------------------------------------DONE------------------------------------")
