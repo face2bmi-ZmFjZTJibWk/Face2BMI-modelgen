@@ -56,12 +56,12 @@ def get_face_encoding(image_path):
     # load image in face-recognition
     input_image = face_recognition.load_image_file(image_path)
     # get face data encodings extracted from image from facenet's pretrained data
-    my_face_encoding = face_recognition.face_encodings(input_image)
-    if not my_face_encoding:
-        # return zeros if no face found
+    try:
+        face_encoding = face_recognition.face_encodings(input_image)[0]
+        return face_encoding.tolist()
+    except IndexError:
         print("Face not found in {}".format(image_path))
         return np.zeros(128).tolist()
-    return my_face_encoding[0].tolist()
 
 
 # get face encodings for each image in dataframe df
