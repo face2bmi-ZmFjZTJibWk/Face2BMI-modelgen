@@ -36,6 +36,10 @@ On Windows:
 
 ### Installing Dependencies
 
+> On macOS and Linux (for dlib building):
+> 
+> `sudo apt-get install python3-dev`
+
 `pip install -r requirements.txt`
 
 ### Updating Submodule `data`
