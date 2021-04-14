@@ -58,7 +58,7 @@ def get_face_encoding(image_path):
     # get face data encodings extracted from image from facenet's pretrained data
     try:
         face_encoding = face_recognition.face_encodings(
-            input_image, num_jitters=20, model='large')[0]
+            input_image, num_jitters=10, model='large')[0]
         return face_encoding.tolist()
     except IndexError:
         print("Face not found in {}".format(image_path))
@@ -78,7 +78,7 @@ y_height = data_df["Height (m)"].values
 y_weight = data_df["Weight (kg)"].values
 
 X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = \
-    train_test_split(X, y_height, y_weight, test_size=0.20, random_state=1)
+    train_test_split(X, y_height, y_weight, test_size=0.20, random_state=42)
 
 # Fit face-encoding data with height as a linear model
 model_height = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.002).fit(
