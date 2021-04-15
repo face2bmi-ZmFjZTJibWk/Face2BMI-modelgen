@@ -90,7 +90,7 @@ model_weight = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.0).fit(
 
 print("------------------------------------DONE------------------------------------")
 
-print("------------------------------------Output Model.pkl------------------------------------")
+print("------------------------------------Output Model------------------------------------")
 
 
 def measure_perf(model, X_test, y_test):
@@ -115,5 +115,5 @@ print("Weight Perf => {}".format(
 
 
 # save model dump into binaries
-joblib.dump(model_height, "out/height_predictor.model")
-joblib.dump(model_weight, "out/weight_predictor.model")
+joblib.dump(model_height, "model/height_predictor.model")
+joblib.dump(model_weight, "model/weight_predictor.model")
