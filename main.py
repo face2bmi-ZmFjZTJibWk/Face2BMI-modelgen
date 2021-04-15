@@ -54,14 +54,18 @@ face_encodings_all = []
 
 def get_face_encoding(image_path):
     # load image in face-recognition
-    input_image = face_recognition.load_image_file(image_path, mode='RGB')
+    input_image = face_recognition.load_image_file(image_path)
     # get face data encodings extracted from image from facenet's pretrained data
-    try:
+    face_locations = face_recognition.face_locations(input_image)
+    if len(face_locations) == 1:
         face_encoding = face_recognition.face_encodings(
-            input_image, num_jitters=10, model='large')[0]
+            input_image, known_face_locations=face_locations, num_jitters=10, model='large')[0]
         return face_encoding.tolist()
-    except IndexError:
-        print("Face not found in {}".format(image_path))
+    elif (len(face_locations) < 1):
+        print("[ignoring] Face not found in {}".format(image_path))
+        return np.zeros(128).tolist()
+    else:
+        print("[ignoring] More than one face found in {}".format(image_path))
         return np.zeros(128).tolist()
 
 
@@ -81,11 +85,11 @@ X_train, X_test, y_height_train, y_height_test, y_weight_train, y_weight_test = 
     train_test_split(X, y_height, y_weight, test_size=0.20, random_state=42)
 
 # Fit face-encoding data with height as a linear model
-model_height = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.002).fit(
+model_height = KernelRidge(kernel="rbf", gamma=0.21).fit(
     X_train, np.log(y_height_train))
 
 # Fit face-encoding data with weight as a linear model
-model_weight = KernelRidge(kernel="rbf", gamma=0.21, alpha=0.0).fit(
+model_weight = KernelRidge(kernel="rbf", gamma=0.21).fit(
     X_train, np.log(y_weight_train))
 
 print("------------------------------------DONE------------------------------------")
